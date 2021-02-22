@@ -1,16 +1,21 @@
 using System;
-using System.Collections;
+//using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 class Domain
 {
 	public static string static_encoding(string s)
 	{
-		return s;
+		IdnMapping idnMapping = new IdnMapping();
+		string punycodeDomainName = idnMapping.GetAscii(s);
+		return punycodeDomainName;
 	}
 	public static string static_decoding(string s)
 	{
-		return s;
+		IdnMapping idnMapping = new IdnMapping();
+		string unicodeDomainName = idnMapping.GetUnicode(s);
+		return unicodeDomainName;
 	}
 
 	string Url;
@@ -48,7 +53,7 @@ public class EntryPoint
 		DomainCollectionLoader loader = new DomainCollectionLoader();
 		foreach  (Domain D in loader.Load())
 		{
-			Console.WriteLine(Domain.static_decoding(D.Name));
+			Console.WriteLine(D.Name + "\t" + Domain.static_decoding(D.Name));
 		}
 		return 0;
 	}
